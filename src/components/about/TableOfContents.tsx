@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Column, Flex, Text } from "@once-ui-system/core";
+import { Column, Flex, Row, Text } from "@once-ui-system/core";
 import styles from "./about.module.scss";
 
 interface TableOfContentsProps {
@@ -35,54 +35,29 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ structure, about }) =
   if (!about.tableOfContent.display) return null;
 
   return (
-    <Column
-      left="0"
-      style={{
-        top: "50%",
-        transform: "translateY(-50%)",
-        whiteSpace: "nowrap",
-      }}
-      position="fixed"
-      paddingLeft="24"
-      gap="32"
-      m={{ hide: true }}
+    <Row
+      gap="24"
+      vertical="center"
+      horizontal="center"
+      wrap
     >
       {structure
         .filter((section) => section.display)
         .map((section, sectionIndex) => (
-          <Column key={sectionIndex} gap="12">
-            <Flex
-              cursor="interactive"
-              className={styles.hover}
-              gap="8"
-              vertical="center"
-              onClick={() => scrollTo(section.title, 80)}
-            >
-              <Flex height="1" minWidth="16" background="neutral-strong"></Flex>
-              <Text>{section.title}</Text>
-            </Flex>
-            {about.tableOfContent.subItems && (
-              <>
-                {section.items.map((item, itemIndex) => (
-                  <Flex
-                    l={{ hide: true }}
-                    key={itemIndex}
-                    style={{ cursor: "pointer" }}
-                    className={styles.hover}
-                    gap="12"
-                    paddingLeft="24"
-                    vertical="center"
-                    onClick={() => scrollTo(item, 80)}
-                  >
-                    <Flex height="1" minWidth="8" background="neutral-strong"></Flex>
-                    <Text>{item}</Text>
-                  </Flex>
-                ))}
-              </>
-            )}
-          </Column>
+          <Flex
+            key={sectionIndex}
+            cursor="interactive"
+            className={styles.hover}
+            gap="8"
+            vertical="center"
+            onClick={() => scrollTo(section.title, 80)}
+          >
+            <Text variant="label-default-s" onBackground="neutral-weak">
+              {section.title}
+            </Text>
+          </Flex>
         ))}
-    </Column>
+    </Row>
   );
 };
 

@@ -177,6 +177,8 @@ export interface About extends BasePageConfig {
       name: string;
       /** Description of studies */
       description: React.ReactNode;
+      /** Image of the institution */
+      image?: string;
     }>;
   };
   /** Technical skills section */
@@ -196,6 +198,10 @@ export interface About extends BasePageConfig {
         name: string;
         icon?: string;
       }>;
+      /** Small icon image for the skill */
+      smallImage?: string;
+      /** Grid layout (1 = full-width, 2 = half-width) */
+      grid?: number;
       /** Images related to the skill */
       images?: Array<{
         /** Image source path */
@@ -215,13 +221,13 @@ export interface About extends BasePageConfig {
  * Blog page configuration.
  * @description Configuration for the Blog page, including metadata and navigation label.
  */
-export interface Blog extends BasePageConfig {}
+export interface Blog extends BasePageConfig { }
 
 /**
  * Work/projects page configuration.
  * @description Configuration for the Work/Projects page, including metadata and navigation label.
  */
-export interface Work extends BasePageConfig {}
+export interface Work extends BasePageConfig { }
 
 /**
  * Gallery page configuration.

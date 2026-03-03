@@ -7,6 +7,7 @@ import { Fade, Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
 
 import { routes, display, person, about, blog, work, gallery } from "@/resources";
 import { ThemeToggle } from "./ThemeToggle";
+import TableOfContents from "./about/TableOfContents";
 import styles from "./Header.module.scss";
 
 type TimeDisplayProps = {
@@ -75,7 +76,7 @@ export const Header = () => {
         <Row paddingLeft="12" fillWidth vertical="center" textVariant="body-default-s">
           {display.location && <Row s={{ hide: true }}>{person.location}</Row>}
         </Row>
-        <Row fillWidth horizontal="center">
+        <Row fillWidth horizontal="center" direction="column" gap="4">
           <Row
             background="page"
             border="neutral-alpha-weak"
@@ -86,10 +87,10 @@ export const Header = () => {
             zIndex={1}
           >
             <Row gap="4" vertical="center" textVariant="body-default-s" suppressHydrationWarning>
-              {routes["/"] && (
+              {/* {routes["/"] && (
                 <ToggleButton prefixIcon="home" href="/" selected={pathname === "/"} />
               )}
-              <Line background="neutral-alpha-medium" vert maxHeight="24" />
+              <Line background="neutral-alpha-medium" vert maxHeight="24" /> */}
               {routes["/about"] && (
                 <>
                   <Row s={{ hide: true }}>
@@ -174,6 +175,29 @@ export const Header = () => {
               )}
             </Row>
           </Row>
+          {pathname === "/about" && (
+            <Row
+              background="page"
+              border="neutral-alpha-weak"
+              radius="m-4"
+              shadow="l"
+              paddingX="12"
+              paddingY="4"
+              horizontal="center"
+              zIndex={1}
+              s={{ hide: true }}
+            >
+              <TableOfContents
+                structure={[
+                  { title: about.intro.title, display: about.intro.display, items: [] },
+                  { title: about.work.title, display: about.work.display, items: about.work.experiences.map(e => e.company) },
+                  { title: about.studies.title, display: about.studies.display, items: about.studies.institutions.map(i => i.name) },
+                  { title: about.technical.title, display: about.technical.display, items: about.technical.skills.map(s => s.title) },
+                ]}
+                about={about}
+              />
+            </Row>
+          )}
         </Row>
         <Flex fillWidth horizontal="end" vertical="center">
           <Flex
@@ -183,9 +207,6 @@ export const Header = () => {
             textVariant="body-default-s"
             gap="20"
           >
-            <Flex s={{ hide: true }}>
-              {display.time && <TimeDisplay timeZone={person.location} />}
-            </Flex>
           </Flex>
         </Flex>
       </Row>
