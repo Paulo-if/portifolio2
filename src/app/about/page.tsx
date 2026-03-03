@@ -14,7 +14,6 @@ import {
 } from "@once-ui-system/core";
 import { baseURL, about, person, social, gallery } from "@/resources";
 import TableOfContents from "@/components/about/TableOfContents";
-import FanCarousel from "@/components/FanCarousel/FanCarousel";
 import styles from "@/components/about/about.module.scss";
 import React from "react";
 
@@ -192,7 +191,6 @@ export default function About() {
               <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="xl">
                 {about.intro.description}
               </Column>
-              <FanCarousel images={gallery.images.map(img => img.src)} title="Portfolio" />
             </>
           )}
 
