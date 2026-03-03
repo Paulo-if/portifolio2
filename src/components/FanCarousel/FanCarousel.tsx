@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
 import styles from './FanCarousel.module.css';
 
 interface FanCarouselProps {
@@ -70,12 +69,14 @@ const FanCarousel: React.FC<FanCarouselProps> = ({ images, title }) => {
                             className={`${styles.card} ${getCardClass(index)}`}
                             onClick={() => handleCardClick(index, img)}
                         >
-                            <Image
+                            <img
                                 src={img}
                                 alt={`Slide ${index}`}
-                                fill
-                                unoptimized
-                                style={{ objectFit: 'cover' }}
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'cover'
+                                }}
                             />
                         </div>
                     ))}
@@ -88,12 +89,9 @@ const FanCarousel: React.FC<FanCarouselProps> = ({ images, title }) => {
                     className={styles.modal}
                     onClick={() => setFullscreenImage(null)}
                 >
-                    <Image
+                    <img
                         src={fullscreenImage}
                         alt="Fullscreen"
-                        width={1200}
-                        height={800}
-                        unoptimized
                         className={styles.modalImage}
                         style={{ objectFit: 'contain' }}
                     />

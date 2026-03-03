@@ -6,7 +6,7 @@ const person: Person = {
   lastName: "Otavio",
   name: `Paulo Otavio`,
   role: "Web Designer",
-  avatar: "/images/avatar 2.jpg",
+  avatar: "/portifolio2/images/avatar 2.jpg",
   email: "otaviopaulo040205@gmail.com",
   location: "America/Sao_Paulo",
 };
@@ -257,12 +257,12 @@ const gallery: Gallery = {
   images: [
 
     {
-      src: "/images/gallery/10.png",
+      src: "/portifolio2/images/gallery/10.png",
       alt: "image",
       orientation: "horizontal",
     },
     {
-      src: "/images/gallery/11.png",
+      src: "/portifolio2/images/gallery/11.png",
       alt: "image",
       orientation: "horizontal",
     },
