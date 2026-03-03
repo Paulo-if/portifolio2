@@ -13,7 +13,7 @@ export const Footer = () => {
         paddingY="8"
         paddingX="16"
         gap="16"
-        horizontal="between"
+        horizontal="center"
         vertical="center"
         s={{
           direction: "column",
