@@ -44,7 +44,7 @@ const social: Social = [
 
 const home: Home = {
   path: "/",
-  image: "/images/og/home.jpg",
+  image: "/portifolio2/images/og/home.jpg",
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
@@ -107,7 +107,7 @@ const about: About = {
         role: "Web Designer",
         images: [
           {
-            src: "/images/projects/project-01/imagem-cyberbee.png",
+            src: "/portifolio2/images/projects/project-01/imagem-cyberbee.png",
             alt: "CyberBee Project",
             width: 9,
             height: 16,
@@ -156,7 +156,7 @@ const about: About = {
         images: [
           // optional: leave the array empty if you don't want to display images
           {
-            src: "/images/projects/project-01/Teste-linkpage.png",
+            src: "/portifolio2/images/projects/project-01/Teste-linkpage.png",
             alt: "LinkPage",
             width: 9,
             height: 16,
@@ -172,7 +172,7 @@ const about: About = {
       {
         name: "Universidade Federal de Jataí",
         description: <>Ciência da Computação</>,
-        image: "/images/projects/project-01/imagem-faculdade.jpg",
+        image: "/portifolio2/images/projects/project-01/imagem-faculdade.jpg",
       },
       {
         name: "Autodidata",
@@ -198,13 +198,13 @@ const about: About = {
         // optional: leave the array empty if you don't want to display images
         images: [
           {
-            src: "/images/projects/project-01/imagem-figma.png",
+            src: "/portifolio2/images/projects/project-01/imagem-figma.png",
             alt: "Project image",
             width: 16,
             height: 9,
           },
           {
-            src: "/images/projects/project-01/imagem-figma02.png",
+            src: "/portifolio2/images/projects/project-01/imagem-figma02.png",
             alt: "Project image",
             width: 16,
             height: 9,
@@ -267,53 +267,53 @@ const gallery: Gallery = {
       orientation: "horizontal",
     },
     {
-      src: "/images/gallery/12.png",
+      src: "/portifolio2/images/gallery/12.png",
       alt: "image",
       orientation: "horizontal",
     },
 
     {
-      src: "/images/gallery/01.png",
+      src: "/portifolio2/images/gallery/01.png",
       alt: "image",
       orientation: "horizontal",
     },
     {
-      src: "/images/gallery/02.png",
+      src: "/portifolio2/images/gallery/02.png",
       alt: "image",
       orientation: "horizontal",
     },
     {
-      src: "/images/gallery/03.png",
+      src: "/portifolio2/images/gallery/03.png",
       alt: "image",
       orientation: "horizontal",
     },
     {
-      src: "/images/gallery/04.png",
+      src: "/portifolio2/images/gallery/04.png",
       alt: "image",
       orientation: "horizontal",
     },
     {
-      src: "/images/gallery/05.png",
+      src: "/portifolio2/images/gallery/05.png",
       alt: "image",
       orientation: "horizontal",
     },
     {
-      src: "/images/gallery/06.png",
+      src: "/portifolio2/images/gallery/06.png",
       alt: "image",
       orientation: "horizontal",
     },
     {
-      src: "/images/gallery/07.png",
+      src: "/portifolio2/images/gallery/07.png",
       alt: "image",
       orientation: "horizontal",
     },
     {
-      src: "/images/gallery/08.png",
+      src: "/portifolio2/images/gallery/08.png",
       alt: "image",
       orientation: "horizontal",
     },
     {
-      src: "/images/gallery/09.png",
+      src: "/portifolio2/images/gallery/09.png",
       alt: "image",
       orientation: "horizontal",
     },
