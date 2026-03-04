@@ -198,7 +198,7 @@ export default function About() {
 
           {about.work.display && (
             <>
-              <Heading as="h1" id={about.work.title} variant="display-strong-s" marginBottom="m">
+              <Heading as="h1" id={about.work.title} variant="display-strong-s" marginBottom="m" className={styles.textAlign}>
                 {about.work.title}
               </Heading>
               <Column fillWidth gap="l" marginBottom="40">
@@ -232,7 +232,7 @@ export default function About() {
                         </Column>
                       </Column>
                       {experience.images && experience.images.length > 0 && (
-                        <Column flex={4} fillHeight>
+                        <Column flex={4} s={{ marginTop: "16" }}>
                           <div className={styles.imageWrapper}>
                             <Media
                               radius="m"
@@ -252,12 +252,12 @@ export default function About() {
 
           {about.studies.display && (
             <>
-              <Heading as="h2" id={about.studies.title} variant="display-strong-s" marginBottom="m">
+              <Heading as="h2" id={about.studies.title} variant="display-strong-s" marginBottom="m" className={styles.textAlign}>
                 {about.studies.title}
               </Heading>
               <Column fillWidth gap="l" marginBottom="40">
                 {about.studies.institutions.map((institution, index) => (
-                  <Row key={`${institution.name}-${index}`} fillWidth horizontal="between" vertical="center" gap="16">
+                  <Row key={`${institution.name}-${index}`} fillWidth horizontal="between" vertical="center" gap="16" className={styles.studyRow}>
                     <Column gap="4">
                       <Text id={institution.name} variant="heading-strong-l">
                         {institution.name}
@@ -289,6 +289,7 @@ export default function About() {
                 variant="display-strong-s"
                 marginTop="40"
                 marginBottom="40"
+                className={styles.textAlign}
               >
                 {about.technical.title}
               </Heading>
@@ -304,7 +305,7 @@ export default function About() {
                     }
                     gap="4"
                   >
-                    <Row fillWidth horizontal="between" vertical="center" gap="16">
+                    <Row fillWidth horizontal="between" vertical="center" gap="16" className={styles.skillRow}>
                       <Column gap="4">
                         <Text id={skill.title} variant="heading-strong-l">
                           {skill.title}
@@ -324,7 +325,7 @@ export default function About() {
                       )}
                     </Row>
                     {skill.tags && skill.tags.length > 0 && (
-                      <Row wrap gap="8" paddingTop="8">
+                      <Row wrap gap="8" paddingTop="8" className={styles.tagRow}>
                         {skill.tags.map((tag, tagIndex) => (
                           <Tag key={`${skill.title}-${tagIndex}`} size="l" prefixIcon={tag.icon}>
                             {tag.name}
@@ -333,7 +334,7 @@ export default function About() {
                       </Row>
                     )}
                     {skill.images && skill.images.length > 0 && (
-                      <Row fillWidth paddingTop="m" gap="12" wrap>
+                      <Row fillWidth paddingTop="m" gap="12" wrap className={styles.skillImagesRow}>
                         {skill.images.map((image, index) => (
                           <Row
                             key={index}

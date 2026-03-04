@@ -73,4 +73,40 @@
     .blockAlign {
         align-self: center;
     }
+
+    /* Center all headings and text blocks */
+    .expCard {
+        text-align: center;
+        align-items: center;
+    }
+
+    /* Center study rows */
+    .studyRow {
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    /* Center skill rows */
+    .skillRow {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    /* Center tag rows */
+    .tagRow {
+        justify-content: center;
+    }
+
+    /* Center image containers */
+    .imageWrapper {
+        margin: 0 auto;
+    }
+
+    /* Center skill image rows */
+    .skillImagesRow {
+        justify-content: center;
+    }
 }

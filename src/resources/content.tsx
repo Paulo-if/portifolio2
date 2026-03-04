@@ -106,10 +106,10 @@ const about: About = {
         role: "Web Designer",
         images: [
           {
-            src: "/portifolio2/images/projects/project-01/imagem-cyberbee.png",
+            src: "./images/gallery/imagem-byber-mobile.png",
             alt: "CyberBee Project",
-            width: 9,
-            height: 16,
+            width: 16,
+            height: 9,
           },
         ],
         achievements: [
@@ -173,10 +173,7 @@ const about: About = {
         description: <>Ciência da Computação</>,
         image: "/portifolio2/images/projects/project-01/imagem-faculdade.jpg",
       },
-      {
-        name: "Autodidata",
-        description: <>Estudo de design e desenvolvimento web </>,
-      },
+
     ],
   },
   technical: {
@@ -198,12 +195,6 @@ const about: About = {
         images: [
           {
             src: "/portifolio2/images/projects/project-01/imagem-figma.png",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-          {
-            src: "/portifolio2/images/projects/project-01/imagem-figma02.png",
             alt: "Project image",
             width: 16,
             height: 9,
