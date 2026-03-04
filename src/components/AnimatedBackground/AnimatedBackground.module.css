@@ -1,0 +1,626 @@
+.background {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+
+    /* ══ TOKENS DE TEMA ══ */
+    --t: 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--bg);
+    transition: background var(--t);
+    color: var(--color);
+}
+
+:global([data-theme="dark"]) .background {
+    --bg: #000510;
+    --color: #ffffff;
+    --color-sub: rgba(255, 255, 255, 0.35);
+    --color-tag: rgba(120, 180, 255, 0.6);
+    --color-label: rgba(120, 180, 255, 0.5);
+    --blob1: radial-gradient(ellipse at center, rgba(10, 80, 220, 0.75) 0%, rgba(5, 40, 160, 0.45) 40%, transparent 75%);
+    --blob2: radial-gradient(ellipse at center, rgba(20, 100, 255, 0.80) 0%, rgba(10, 60, 200, 0.50) 40%, rgba(5, 20, 100, 0.20) 65%, transparent 80%);
+    --blob3: radial-gradient(ellipse at center, rgba(15, 90, 240, 0.55) 0%, rgba(8, 50, 180, 0.30) 45%, transparent 70%);
+    --vignette: radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(0, 0, 0, 0.88) 100%);
+    --pill-bg: rgba(8, 16, 40, 0.55);
+    --pill-border: rgba(100, 170, 255, 0.18);
+    --pill-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    --pill-glow: 0 4px 32px rgba(80, 160, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    --num-color: #ffffff;
+    --num-pop: rgba(140, 210, 255, 1);
+    --cur-col: rgba(80, 160, 255, 0.55);
+    --cur-dot: rgba(100, 180, 255, 0.9);
+    --cur-shadow: 0 0 8px 3px rgba(60, 140, 255, 0.6);
+}
+
+:global([data-theme="light"]) .background {
+    --bg: #cfe4ff;
+    --color: #0a1628;
+    --color-sub: rgba(10, 30, 80, 0.4);
+    --color-tag: rgba(15, 70, 190, 0.65);
+    --color-label: rgba(15, 70, 190, 0.55);
+    --blob1: radial-gradient(ellipse at center, rgba(80, 140, 255, 0.45) 0%, rgba(60, 110, 230, 0.25) 40%, transparent 75%);
+    --blob2: radial-gradient(ellipse at center, rgba(50, 120, 255, 0.40) 0%, rgba(30, 90, 210, 0.22) 40%, rgba(10, 60, 170, 0.10) 65%, transparent 80%);
+    --blob3: radial-gradient(ellipse at center, rgba(70, 135, 255, 0.32) 0%, rgba(40, 100, 210, 0.18) 45%, transparent 70%);
+    --vignette: radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(180, 215, 255, 0.6) 100%);
+    --pill-bg: rgba(255, 255, 255, 0.70);
+    --pill-border: rgba(50, 110, 220, 0.22);
+    --pill-shadow: 0 4px 24px rgba(0, 50, 160, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    --pill-glow: 0 4px 28px rgba(30, 90, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    --num-color: #0a1628;
+    --num-pop: rgba(10, 60, 200, 1);
+    --cur-col: rgba(30, 90, 210, 0.55);
+    --cur-dot: rgba(20, 75, 200, 0.9);
+    --cur-shadow: 0 0 8px 3px rgba(20, 75, 200, 0.4);
+}
+
+/* Fallback default to dark theme if not specified */
+.background {
+    --bg: #000510;
+    --color: #ffffff;
+    --color-sub: rgba(255, 255, 255, 0.35);
+    --color-tag: rgba(120, 180, 255, 0.6);
+    --color-label: rgba(120, 180, 255, 0.5);
+    --blob1: radial-gradient(ellipse at center, rgba(10, 80, 220, 0.75) 0%, rgba(5, 40, 160, 0.45) 40%, transparent 75%);
+    --blob2: radial-gradient(ellipse at center, rgba(20, 100, 255, 0.80) 0%, rgba(10, 60, 200, 0.50) 40%, rgba(5, 20, 100, 0.20) 65%, transparent 80%);
+    --blob3: radial-gradient(ellipse at center, rgba(15, 90, 240, 0.55) 0%, rgba(8, 50, 180, 0.30) 45%, transparent 70%);
+    --vignette: radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(0, 0, 0, 0.88) 100%);
+    --pill-bg: rgba(8, 16, 40, 0.55);
+    --pill-border: rgba(100, 170, 255, 0.18);
+    --pill-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    --pill-glow: 0 4px 32px rgba(80, 160, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    --num-color: #ffffff;
+    --num-pop: rgba(140, 210, 255, 1);
+    --cur-col: rgba(80, 160, 255, 0.55);
+    --cur-dot: rgba(100, 180, 255, 0.9);
+    --cur-shadow: 0 0 8px 3px rgba(60, 140, 255, 0.6);
+}
+
+/* ── BLOBS DE FUNDO ── */
+.blobTl {
+    position: absolute;
+    top: -20%;
+    left: -10%;
+    width: 65vw;
+    height: 65vw;
+    background: var(--blob1);
+    filter: blur(60px);
+    border-radius: 50%;
+    z-index: 1;
+    animation: moveTL 16s ease-in-out infinite alternate;
+    transition: background var(--t);
+}
+
+.blobCr {
+    position: absolute;
+    top: 35%;
+    right: -15%;
+    width: 75vw;
+    height: 75vw;
+    background: var(--blob2);
+    filter: blur(55px);
+    border-radius: 50%;
+    z-index: 1;
+    animation: moveCR 20s ease-in-out infinite alternate;
+    transition: background var(--t);
+}
+
+.blobBl {
+    position: absolute;
+    bottom: -15%;
+    left: 10%;
+    width: 60vw;
+    height: 60vw;
+    background: var(--blob3);
+    filter: blur(70px);
+    border-radius: 50%;
+    z-index: 1;
+    animation: moveBL 18s ease-in-out infinite alternate;
+    transition: background var(--t);
+}
+
+/* ── BOLHAS ── */
+.bubbles {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.bubblesContainer {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.bubble {
+    position: absolute;
+    bottom: -160px;
+    border-radius: 50%;
+    cursor: pointer;
+    will-change: transform;
+    pointer-events: auto;
+    background: radial-gradient(circle at 32% 30%, rgba(255, 255, 255, 0.38) 0%, rgba(180, 220, 255, 0.15) 30%, rgba(100, 160, 255, 0.06) 60%, transparent 100%);
+    border: 1.2px solid rgba(140, 200, 255, 0.40);
+    box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.14), 0 0 18px rgba(60, 130, 255, 0.18);
+    backdrop-filter: blur(3px);
+    transition: box-shadow 0.2s;
+}
+
+.bubble:hover {
+    box-shadow: inset 0 0 22px rgba(255, 255, 255, 0.25), 0 0 32px rgba(80, 160, 255, 0.40);
+}
+
+.bubble::before {
+    content: '';
+    position: absolute;
+    top: 13%;
+    left: 16%;
+    width: 30%;
+    height: 22%;
+    background: rgba(255, 255, 255, 0.60);
+    border-radius: 50%;
+    filter: blur(3px);
+    transform: rotate(-25deg);
+    pointer-events: none;
+}
+
+.bubble::after {
+    content: '';
+    position: absolute;
+    bottom: 18%;
+    right: 18%;
+    width: 13%;
+    height: 11%;
+    background: rgba(255, 255, 255, 0.28);
+    border-radius: 50%;
+    filter: blur(2px);
+    pointer-events: none;
+}
+
+.bubblePopping {
+    animation: bubblePop 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards !important;
+    pointer-events: none;
+}
+
+@keyframes bubblePop {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+        filter: blur(0px);
+    }
+
+    25% {
+        transform: scale(1.22);
+        opacity: 0.9;
+        filter: blur(0px);
+    }
+
+    55% {
+        transform: scale(0.85);
+        opacity: 0.6;
+        filter: blur(2px);
+    }
+
+    80% {
+        transform: scale(1.35);
+        opacity: 0.2;
+        filter: blur(6px);
+    }
+
+    100% {
+        transform: scale(1.6);
+        opacity: 0;
+        filter: blur(12px);
+    }
+}
+
+/* ── ESTOURO ── */
+.popRing {
+    position: fixed;
+    border-radius: 50%;
+    border: 2px solid rgba(150, 210, 255, 0.85);
+    pointer-events: none;
+    z-index: 100;
+    transform: translate(-50%, -50%) scale(0);
+    animation: ringExpand 0.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes ringExpand {
+    0% {
+        transform: translate(-50%, -50%) scale(0.2);
+        opacity: 1;
+    }
+
+    60% {
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(4);
+        opacity: 0;
+    }
+}
+
+.popRing2 {
+    position: fixed;
+    border-radius: 50%;
+    border: 1px solid rgba(100, 180, 255, 0.55);
+    pointer-events: none;
+    z-index: 100;
+    transform: translate(-50%, -50%) scale(0);
+    animation: ringExpand2 0.65s cubic-bezier(0.1, 0.8, 0.3, 1) 0.05s forwards;
+}
+
+@keyframes ringExpand2 {
+    0% {
+        transform: translate(-50%, -50%) scale(0.1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(5.5);
+        opacity: 0;
+    }
+}
+
+.popFlash {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 101;
+    background: radial-gradient(circle, rgba(220, 240, 255, 1) 0%, rgba(120, 190, 255, 0.7) 35%, rgba(60, 140, 255, 0.2) 65%, transparent 80%);
+    transform: translate(-50%, -50%) scale(0);
+    animation: flashBurst 0.32s ease-out forwards;
+}
+
+@keyframes flashBurst {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+
+    35% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(2.2);
+        opacity: 0;
+    }
+}
+
+.drop {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 102;
+    background: radial-gradient(circle at 35% 30%, rgba(200, 230, 255, 0.95) 0%, rgba(100, 170, 255, 0.70) 50%, transparent 100%);
+    box-shadow: 0 0 6px rgba(80, 160, 255, 0.5);
+    animation: dropAnim var(--dur) cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes dropAnim {
+    0% {
+        transform: translate(-50%, -50%) translate(0, 0) scale(1);
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) translate(var(--ex), var(--ey)) scale(0);
+        opacity: 0;
+    }
+}
+
+.shard {
+    position: fixed;
+    pointer-events: none;
+    z-index: 102;
+    width: var(--w);
+    height: 1.5px;
+    background: linear-gradient(90deg, rgba(180, 220, 255, 0.9), transparent);
+    border-radius: 2px;
+    transform-origin: left center;
+    animation: shardFly var(--dur) ease-out forwards;
+}
+
+@keyframes shardFly {
+    0% {
+        transform: translate(-50%, -50%) rotate(var(--rot)) scaleX(0);
+        opacity: 1;
+    }
+
+    20% {
+        transform: translate(-50%, -50%) rotate(var(--rot)) scaleX(1);
+        opacity: 0.9;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotate(var(--rot)) translate(var(--dist), 0) scaleX(0.3);
+        opacity: 0;
+    }
+}
+
+/* ── VINHETA ── */
+.vignette {
+    position: absolute;
+    inset: 0;
+    background: var(--vignette);
+    z-index: 4;
+    pointer-events: none;
+    transition: background var(--t);
+}
+
+/* ── GRAIN ── */
+.grain {
+    position: absolute;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grainMove .5s steps(1) infinite;
+}
+
+@keyframes grainMove {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    20% {
+        transform: translate(-3%, -4%);
+    }
+
+    40% {
+        transform: translate(-5%, 3%);
+    }
+
+    60% {
+        transform: translate(4%, -2%);
+    }
+
+    80% {
+        transform: translate(2%, 5%);
+    }
+
+    100% {
+        transform: translate(-2%, -1%);
+    }
+}
+
+/* ── KEYFRAMES BLOBS ── */
+@keyframes riseLeft {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+
+    5% {
+        opacity: 1;
+    }
+
+    25% {
+        transform: translateY(-25vh) translateX(-18px);
+    }
+
+    50% {
+        transform: translateY(-50vh) translateX(12px);
+    }
+
+    75% {
+        transform: translateY(-75vh) translateX(-22px);
+    }
+
+    100% {
+        transform: translateY(-112vh) translateX(8px);
+        opacity: 0;
+    }
+}
+
+@keyframes riseRight {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+
+    5% {
+        opacity: 1;
+    }
+
+    25% {
+        transform: translateY(-25vh) translateX(20px);
+    }
+
+    50% {
+        transform: translateY(-50vh) translateX(-10px);
+    }
+
+    75% {
+        transform: translateY(-75vh) translateX(25px);
+    }
+
+    100% {
+        transform: translateY(-112vh) translateX(-6px);
+        opacity: 0;
+    }
+}
+
+@keyframes moveTL {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate(8vw, 5vh) scale(1.08);
+    }
+
+    66% {
+        transform: translate(3vw, 12vh) scale(.95);
+    }
+
+    100% {
+        transform: translate(12vw, 4vh) scale(1.05);
+    }
+}
+
+@keyframes moveCR {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate(-10vw, -8vh) scale(1.1);
+    }
+
+    66% {
+        transform: translate(-5vw, 5vh) scale(.92);
+    }
+
+    100% {
+        transform: translate(-14vw, -4vh) scale(1.06);
+    }
+}
+
+@keyframes moveBL {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate(6vw, -6vh) scale(1.07);
+    }
+
+    66% {
+        transform: translate(12vw, -2vh) scale(.96);
+    }
+
+    100% {
+        transform: translate(4vw, -9vh) scale(1.04);
+    }
+}
+
+/* ── CURSOR ── */
+.curRing {
+    position: fixed;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--cur-col);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: left .1s ease-out, top .1s ease-out, transform .25s, border-color var(--t);
+}
+
+.curDot {
+    position: fixed;
+    width: 5px;
+    height: 5px;
+    background: var(--cur-dot);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    box-shadow: var(--cur-shadow);
+    transition: left .03s linear, top .03s linear, background var(--t), box-shadow var(--t);
+}
+
+:global(body.on-bubble) .curRing {
+    transform: translate(-50%, -50%) scale(1.6);
+}
+
+:global(body.onHover) .curRing {
+    transform: translate(-50%, -50%) scale(1.8);
+    border-color: rgba(80, 160, 255, .9);
+}
+
+/* ── PILL base (contador + botão) ── */
+.pill {
+    position: fixed;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px 10px 14px;
+    background: var(--pill-bg);
+    border: 1px solid var(--pill-border);
+    border-radius: 999px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: var(--pill-shadow);
+    transition: background var(--t), border-color var(--t), box-shadow 0.3s;
+    pointer-events: auto;
+}
+
+/* ── CONTADOR ── */
+.counterPill {
+    top: 24px;
+    left: 24px;
+    pointer-events: none;
+}
+
+.popAnim {
+    box-shadow: var(--pill-glow);
+}
+
+.counterIcon {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.counterIcon svg {
+    width: 22px;
+    height: 22px;
+    filter: drop-shadow(0 0 6px rgba(100, 180, 255, 0.6));
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.popAnim .counterIcon svg {
+    transform: scale(1.3);
+}
+
+.counterInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.counterLabel {
+    font-size: 0.58rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--color-label);
+    font-weight: 300;
+    line-height: 1;
+    transition: color var(--t);
+}
+
+.counterNumber {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--num-color);
+    line-height: 1;
+    letter-spacing: -0.5px;
+    display: inline-block;
+    transition: color var(--t);
+}
+
+
+
+.popAnim .counterNumber {
+    color: var(--num-pop);
+}
