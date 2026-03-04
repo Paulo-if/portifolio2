@@ -3,7 +3,9 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import styles from "./AnimatedBackground.module.css";
 
-const BUBBLE_CONFIGS = [
+type BubbleConfig = { size: number; left: string; dur: number; delay: number };
+
+const ALL_BUBBLE_CONFIGS: BubbleConfig[] = [
     { size: 28, left: '5%', dur: 12, delay: 0 }, { size: 48, left: '12%', dur: 16, delay: 1.5 },
     { size: 18, left: '20%', dur: 10, delay: 3 }, { size: 62, left: '28%', dur: 19, delay: 0.8 },
     { size: 35, left: '35%', dur: 14, delay: 4 }, { size: 22, left: '43%', dur: 11, delay: 2 },
@@ -14,6 +16,15 @@ const BUBBLE_CONFIGS = [
     { size: 55, left: '46%', dur: 20, delay: 1.2 },
 ];
 
+// Reduced set for mobile — 5 bubbles spread across the screen
+const MOBILE_BUBBLE_CONFIGS: BubbleConfig[] = [
+    { size: 28, left: '10%', dur: 14, delay: 0 },
+    { size: 55, left: '30%', dur: 20, delay: 2 },
+    { size: 40, left: '55%', dur: 17, delay: 4 },
+    { size: 70, left: '75%', dur: 24, delay: 1 },
+    { size: 22, left: '90%', dur: 13, delay: 6 },
+];
+
 export default function AnimatedBackground() {
     const ringRef = useRef<HTMLDivElement>(null);
     const dotRef = useRef<HTMLDivElement>(null);
@@ -22,6 +33,14 @@ export default function AnimatedBackground() {
     const counterNumRef = useRef<HTMLSpanElement>(null);
 
     const [popCount, setPopCount] = useState(0);
+
+    // Detect touch/mobile once at render time — no mouse on these devices
+    const isMobile =
+        typeof window !== "undefined" &&
+        (window.matchMedia("(max-width: 768px)").matches ||
+            window.matchMedia("(hover: none)").matches);
+
+    const BUBBLE_CONFIGS = isMobile ? MOBILE_BUBBLE_CONFIGS : ALL_BUBBLE_CONFIGS;
 
     const incrementCounter = useCallback(() => {
         setPopCount(prev => {
@@ -69,7 +88,7 @@ export default function AnimatedBackground() {
             }
         };
 
-        const pop = (bubble: HTMLDivElement, cx: number, cy: number, cfg: any, idx: number) => {
+        const pop = (bubble: HTMLDivElement, cx: number, cy: number, cfg: BubbleConfig, idx: number) => {
             if (bubble.classList.contains(styles.bubblePopping)) return;
             document.body.classList.remove('on-bubble');
             incrementCounter();
@@ -90,23 +109,40 @@ export default function AnimatedBackground() {
             setTimeout(() => makeBubble(cfg, idx), 3000 + Math.random() * 2000);
         };
 
-        const makeBubble = (cfg: any, idx: number) => {
+        const makeBubble = (cfg: BubbleConfig, idx: number) => {
             if (!cont) return;
             const b = document.createElement('div');
             b.className = styles.bubble;
-
             b.setAttribute('data-idx', idx.toString());
 
             const animName = idx % 2 === 0 ? styles.riseLeft : styles.riseRight;
             b.style.cssText = `width:${cfg.size}px;height:${cfg.size}px;left:${cfg.left};animation-name:${animName};animation-duration:${cfg.dur}s;animation-delay:${cfg.delay}s;animation-timing-function:linear;animation-iteration-count:infinite;`;
 
-            b.addEventListener('mouseenter', () => document.body.classList.add('on-bubble'));
-            b.addEventListener('mouseleave', () => document.body.classList.remove('on-bubble'));
+            // Hover cursor class only makes sense on desktop
+            if (!isMobile) {
+                b.addEventListener('mouseenter', () => document.body.classList.add('on-bubble'));
+                b.addEventListener('mouseleave', () => document.body.classList.remove('on-bubble'));
+            }
 
             cont.appendChild(b);
         };
 
         BUBBLE_CONFIGS.forEach((c, i) => makeBubble(c, i));
+
+        // Touch support — lets mobile users pop bubbles by tapping
+        const handleTouch = (e: TouchEvent) => {
+            const touch = e.changedTouches[0];
+            const elements = document.elementsFromPoint(touch.clientX, touch.clientY);
+            const bubbleEl = Array.from(elements).find(el => el.classList.contains(styles.bubble)) as HTMLDivElement | undefined;
+            if (bubbleEl) {
+                const idxStr = bubbleEl.getAttribute('data-idx');
+                if (idxStr !== null) {
+                    const idx = parseInt(idxStr, 10);
+                    const cfg = BUBBLE_CONFIGS[idx];
+                    if (cfg) pop(bubbleEl, touch.clientX, touch.clientY, cfg, idx);
+                }
+            }
+        };
 
         const handleGlobalClick = (e: MouseEvent) => {
             const elements = document.elementsFromPoint(e.clientX, e.clientY);
@@ -116,25 +152,26 @@ export default function AnimatedBackground() {
                 if (idxStr !== null) {
                     const idx = parseInt(idxStr, 10);
                     const cfg = BUBBLE_CONFIGS[idx];
-                    pop(bubbleEl, e.clientX, e.clientY, cfg, idx);
+                    if (cfg) pop(bubbleEl, e.clientX, e.clientY, cfg, idx);
                 }
             }
         };
 
         window.addEventListener('click', handleGlobalClick);
+        window.addEventListener('touchstart', handleTouch, { passive: true });
 
         return () => {
             window.removeEventListener('click', handleGlobalClick);
+            window.removeEventListener('touchstart', handleTouch);
             if (cont) {
-                while (cont.firstChild) {
-                    cont.removeChild(cont.firstChild);
-                }
+                while (cont.firstChild) cont.removeChild(cont.firstChild);
             }
         };
-    }, [incrementCounter]);
+    }, [incrementCounter, isMobile, BUBBLE_CONFIGS]);
 
+    // Mouse cursor tracking — desktop only, no-op on mobile
     useEffect(() => {
-        if (typeof window === "undefined") return;
+        if (typeof window === "undefined" || isMobile) return;
 
         const handleMouseMove = (e: MouseEvent) => {
             if (ringRef.current) {
@@ -172,7 +209,7 @@ export default function AnimatedBackground() {
             });
             observer.disconnect();
         };
-    }, []);
+    }, [isMobile]);
 
     return (
         <div className={styles.background}>
@@ -202,8 +239,13 @@ export default function AnimatedBackground() {
             <div className={styles.vignette}></div>
             <div className={styles.grain}></div>
 
-            <div className={styles.curRing} ref={ringRef}></div>
-            <div className={styles.curDot} ref={dotRef}></div>
+            {/* Custom cursor — desktop only, no mouse on mobile */}
+            {!isMobile && (
+                <>
+                    <div className={styles.curRing} ref={ringRef}></div>
+                    <div className={styles.curDot} ref={dotRef}></div>
+                </>
+            )}
         </div>
     );
 }

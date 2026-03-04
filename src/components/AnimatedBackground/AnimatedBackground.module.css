@@ -624,3 +624,65 @@
 .popAnim .counterNumber {
     color: var(--num-pop);
 }
+
+/* ═══════════════════════════════════════════════
+   MOBILE OPTIMIZATIONS
+   Applied on small screens (≤768px) and touch
+   devices (no hover = mobile/tablet).
+   Goal: remove the most expensive GPU effects.
+   ═══════════════════════════════════════════════ */
+@media (max-width: 768px),
+(hover: none) {
+
+    /* 1. Blobs: reduce blur drastically (60-70px → 20px)
+          and promote to own GPU layer so scroll doesn't
+          trigger full re-compositing */
+    .blobTl {
+        filter: blur(20px);
+        will-change: transform;
+        animation-duration: 26s;
+        /* slower = fewer composites/s */
+    }
+
+    .blobCr {
+        filter: blur(20px);
+        will-change: transform;
+        animation-duration: 32s;
+    }
+
+    .blobBl {
+        filter: blur(20px);
+        will-change: transform;
+        animation-duration: 28s;
+    }
+
+    /* 2. Bubbles: remove backdrop-filter (most GPU-expensive effect)
+          and simplify box-shadow */
+    .bubble {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.10);
+    }
+
+    .bubble:hover {
+        box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.18);
+    }
+
+    /* 3. Grain: disable completely — it's 200%×200% and
+          animates 2× per second causing constant repaints */
+    .grain {
+        display: none;
+    }
+
+    /* 4. Cursor elements: hidden on mobile (no mouse pointer) */
+    .curRing,
+    .curDot {
+        display: none;
+    }
+
+    /* 5. Pill: simplify backdrop-filter to reduce stacking context cost */
+    .pill {
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+}
